@@ -3,14 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
-
 import { WagmiConfig } from 'wagmi'
 import { arbitrum } from 'viem/chains'
 
 // 1. Get projectId at https://cloud.walletconnect.com
-const projectId = 'ae64d2d938316ce3350fea4c10f6cc79'
+const projectId = 'af49eb156ec0890508277a4707be11db'
 
 // 2. Create wagmiConfig
 const metadata = {
@@ -19,7 +17,6 @@ const metadata = {
   url: 'https://web3modal.com',
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
-
 const chains = [arbitrum]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 
