@@ -15,7 +15,8 @@ export default function Staking({
   XBIT_Pool_Staking_Address,
   XBIT_Pool_Staking_ABI,
   decimals,
-  pool
+  pool,
+  Text,
 }) {
   const { address } = useAccount();
   const [selectDays, setselectDays] = useState(1);
@@ -25,11 +26,11 @@ export default function Staking({
   const [balance, setbalance] = useState(0);
   const [referal, setReferal] = useState("");
   const [copied, setCopied] = useState(false);
-  const [totalStaked_Value, settotalStaked_Value] = useState(0)
-  const [Users_Value, setUsers_Value] = useState(0)
-  const [UserReferalReward, setUserReferalReward] = useState(0)
+  const [totalStaked_Value, settotalStaked_Value] = useState(0);
+  const [Users_Value, setUsers_Value] = useState(0);
+  const [UserReferalReward, setUserReferalReward] = useState(0);
 
-  const webSupply = new Web3("wss://arbitrum-goerli.publicnode.com");
+  const webSupply = new Web3("wss://arbitrum-one.publicnode.com");
 
   const staking_Amount = async () => {
     try {
@@ -50,7 +51,12 @@ export default function Staking({
           } else {
             setspinner(true);
 
-            let stakingValue = getValue * Number(decimals);
+            let stakingValue;
+            if (decimals == 1000000000000000000) {
+              stakingValue = webSupply.utils.toWei(getValue.toString());
+            } else {
+              stakingValue = getValue * Number(decimals);
+            }
             let checkbalance = balance * Number(decimals);
             if (Number(checkbalance) >= Number(stakingValue)) {
               const { request } = await prepareWriteContract({
@@ -88,7 +94,7 @@ export default function Staking({
                 const data = await waitForTransaction({
                   hash,
                 });
-                toast.success("AKS Token Staked Successfull.");
+                toast.success(`${Text} Token Staked Successfull.`);
                 setspinner(false);
               }, 1000);
             } else {
@@ -115,38 +121,36 @@ export default function Staking({
       blanceOf = blanceOf / Number(decimals);
       blanceOf = blanceOf.toString();
       blanceOf = blanceOf.slice(0, 15);
-      setbalance(blanceOf);
+      setbalance(parseFloat(blanceOf).toFixed(2));
     }
   };
 
-
-  const ReadFuc=async()=>{
+  const ReadFuc = async () => {
     try {
       let tokenContractOf = new webSupply.eth.Contract(
         XBIT_Pool_Staking_ABI,
         XBIT_Pool_Staking_Address
       );
       if (address) {
-        let UserReferalReward = await tokenContractOf.methods.UserReferalReward(address).call();
-        UserReferalReward=UserReferalReward/1000000000000000000
-        setUserReferalReward(UserReferalReward)
+        let UserReferalReward = await tokenContractOf.methods
+          .UserReferalReward(address)
+          .call();
+        UserReferalReward = UserReferalReward / 1000000000000000000;
+        setUserReferalReward(UserReferalReward);
         let Users = await tokenContractOf.methods.Users(address).call();
-        Users= Users.DepositeToken
-        console.log("UserReferalReward",Users);
-      setUsers_Value(Users/decimals)
+        Users = Users.DepositeToken;
+        // console.log("UserReferalReward",Users);
+        setUsers_Value(Users / decimals);
       }
       let totalStaked = await tokenContractOf.methods.totalStaked().call();
-      settotalStaked_Value(totalStaked/decimals)
-
-
-
+      settotalStaked_Value(totalStaked / decimals);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    ReadFuc()
+    ReadFuc();
     checkBalance();
     if (address) {
       setReferal(`${window.location.origin}/?ref=${address}`);
@@ -156,12 +160,14 @@ export default function Staking({
   }, [address]);
 
   return (
-    <div>
+    <div className="">
       <div className="row">
         <div className="col-4 p-1 mt-3 mt-md-0">
           <div className="about_box">
             <h3>Total value locked </h3>
-            <p>{totalStaked_Value}</p>
+            <p>
+              {totalStaked_Value} {Text}{" "}
+            </p>
           </div>
         </div>
         <div className="col-4 p-1 mt-3 mt-md-0">
@@ -183,17 +189,17 @@ export default function Staking({
           <div className="col-md-3 col-4 p-1">
             <div
               className="stke_planes"
-              onClick={() => (setselectDays(90), setActive(1))}
+              onClick={() => (setselectDays(30), setActive(3))}
               style={{
                 background:
-                  Active == 1
+                  Active == 3
                     ? "linear-gradient(98.76deg, rgb(56, 195, 207) 0%, rgb(135, 103, 211) 100%)"
-                    : "#000",
+                    : "transparent",
               }}
             >
-              <button className="days_plan">90 days</button>
+              <button className="days_plan">30 days</button>
               <div className="about_plan">
-                <p className="mb-0">10% APY</p>
+                <p className="mb-0 Return_inner">5% Return</p>
               </div>
             </div>
           </div>
@@ -205,39 +211,41 @@ export default function Staking({
                 background:
                   Active == 2
                     ? "linear-gradient(98.76deg, rgb(56, 195, 207) 0%, rgb(135, 103, 211) 100%)"
-                    : "#000",
+                    : "transparent",
               }}
             >
               <button className="days_plan">60 days</button>
               <div className="about_plan">
-                <p className="mb-0">10% APY</p>
+                <p className="mb-0">15% Return</p>
               </div>
             </div>
           </div>
           <div className="col-md-3 col-4 p-1">
             <div
               className="stke_planes"
-              onClick={() => (setselectDays(30), setActive(3))}
+              onClick={() => (setselectDays(90), setActive(1))}
               style={{
                 background:
-                  Active == 3
+                  Active == 1
                     ? "linear-gradient(98.76deg, rgb(56, 195, 207) 0%, rgb(135, 103, 211) 100%)"
-                    : "#000",
+                    : "transparent",
               }}
             >
-              <button className="days_plan">30 days</button>
+              <button className="days_plan">90 days</button>
               <div className="about_plan">
-                <p className="mb-0">10% APY</p>
+                <p className="mb-0">20% Return</p>
               </div>
             </div>
           </div>
         </div>
 
         <div className="row">
-          <div className="col-12 col-lg-12 mb-4">
+          <div className="col-12 col-lg-12 mb-2">
             <div className="text-white d-flex justify-content-between mb-1">
               <p className="mb-0 abt_para">Stake amount</p>
-              <p className="mb-0 abt_para">Available Amount {balance} BCASH</p>
+              <p className="AvailableBalnce abt_para">
+                Available Amount {balance} {Text == "XBIT" ? "XBIT" : "USDT"}
+              </p>
             </div>
             <div className="inputMax">
               <input
@@ -247,7 +255,13 @@ export default function Staking({
                 onChange={(e) => setgetValue(e.target.value)}
                 value={getValue}
               />
-              <button type="button" className="btn-common">
+              <button
+                type="button"
+                className="btn-common"
+                onClick={() =>
+                  balance == 0 ? 0 : setgetValue(Number(balance) - Number(0.01))
+                }
+              >
                 MAX
               </button>
             </div>
@@ -262,7 +276,7 @@ export default function Staking({
           </div>
         </div>
         <div className="User_Dashboard_main">
-          <h4 className="dash mt-3 mt-lg-0">Refer and earn 12% in XBIT</h4>
+          <h4 className="dash mt-1 mt-lg-0">Refer and earn 10% in XBIT</h4>
           <div className="col-md-12">
             {/* <p className="mb-0 text-white abt_para">
                   Enter Your Refferal Address

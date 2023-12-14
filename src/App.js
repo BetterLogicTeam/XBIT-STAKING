@@ -7,10 +7,10 @@ import toast, { Toaster } from 'react-hot-toast';
 function App() {
   return (
     <div className="App">
-        <Toaster />
-    <Header/>
-    <Landing_page/>
-    <Footer/>
+      <Toaster />
+      <Header />
+      <Landing_page />
+    
     </div>
   );
 }

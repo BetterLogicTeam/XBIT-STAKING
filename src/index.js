@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 
 import { WagmiConfig } from 'wagmi'
-import { arbitrumGoerli } from 'viem/chains'
+import { arbitrum } from 'viem/chains'
 
 // 1. Get projectId at https://cloud.walletconnect.com
 const projectId = 'ae64d2d938316ce3350fea4c10f6cc79'
@@ -20,7 +20,7 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
-const chains = [arbitrumGoerli]
+const chains = [arbitrum]
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 
 // 3. Create modal
@@ -30,7 +30,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <WagmiConfig config={wagmiConfig}>
-
       <App />
     </WagmiConfig>
   </React.StrictMode>

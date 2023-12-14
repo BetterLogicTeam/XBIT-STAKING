@@ -7,10 +7,21 @@ import Stake_History from "../Stake_History/Stake_History";
 export default function Landing_page() {
   return (
     <div className="main_landing">
-      <div className="container">
-        <h1 className="landing_heading">
-          Join BCASH STAKING FARM & Earn a guaranteed 720% APY
-        </h1>
+      <div className="overlay"></div>
+      <div className="container ">
+        <div className="">
+          <h1 class="heading heading--accent header-04__heading  text-white">
+            {" "}
+            $XBIT - Empowering Your Financial Freedom
+          </h1>
+          <div class="header-04__text content_box  text-white">
+            <h2>
+              <strong>
+                Imagine a utility token that actually has utility{" "}
+              </strong>
+            </h2>
+          </div>
+        </div>
 
         <Xbit_usdt />
       </div>

@@ -73,7 +73,7 @@ export default function TABS_stake() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const webSupply = new Web3("wss://arbitrum-goerli.publicnode.com");
+  const webSupply = new Web3("wss://arbitrum-one.publicnode.com");
 
   const staking_Amount = async () => {
     try {

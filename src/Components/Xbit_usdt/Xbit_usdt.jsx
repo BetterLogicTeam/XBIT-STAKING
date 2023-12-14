@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Xbit_pool from "../Xbit_pool/Xbit_pool";
 import USDT_Stake from "../USDT_Stake/USDT_Stake";
 import Staking from "../Staking/Staking";
+import "./Xbit_usdt.css"
 import {
   XBIT_Pool_Staking_ABI,
   XBIT_Pool_Staking_Address,
@@ -18,6 +19,7 @@ import {
   XBIT_pool_Token_Abi,
 } from "../../utilies/constant";
 import Stake_History from "../Stake_History/Stake_History";
+import Footer from "../Footer/Footer";
 
 // import "./TABS_stake.css";
 
@@ -62,12 +64,13 @@ export default function Xbit_usdt() {
   };
   return (
     <div>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: "100%" }} className="pb-5">
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
+            className="tab-css"
           >
             <Tab label="Xbit pool" {...a11yProps(0)} />
             <Tab label="USDT/Xbit pool" {...a11yProps(1)} />
@@ -75,7 +78,7 @@ export default function Xbit_usdt() {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <div className="row justify-content-center">
+          <div className="row justify-content-center ">
             <div className="col-md-6">
               <div className="landing_content_box">
                 <div className="landing_head">
@@ -86,7 +89,8 @@ export default function Xbit_usdt() {
                       XBIT_Pool_Staking_Address={XBIT_Pool_Staking_Address}
                       XBIT_Pool_Staking_ABI={XBIT_Pool_Staking_ABI}
                       decimals={1000000000000000000}
-                      pool="XBIT POOL"
+                      pool="Stake XBIT get XBIT"
+                      Text={"XBIT"}
                     />
                   </div>
                 </div>
@@ -96,7 +100,9 @@ export default function Xbit_usdt() {
           <Stake_History
             XBIT_Pool_Staking_Address={XBIT_Pool_Staking_Address}
             XBIT_Pool_Staking_ABI={XBIT_Pool_Staking_ABI}
+            decimals={1000000000000000000}
           />
+            <Footer />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <div className="row justify-content-center">
@@ -110,7 +116,8 @@ export default function Xbit_usdt() {
                       XBIT_Pool_Staking_Address={XBIT_USDT_pool_Staking_Address}
                       XBIT_Pool_Staking_ABI={XBIT_USDT_pool_Staking_Abi}
                       decimals={1000000}
-                      pool="USDT/XBIT POOL"
+                      pool="Stake USDT get XBIT"
+                      Text={"USDT"}
                     />
                   </div>
                 </div>
@@ -120,7 +127,10 @@ export default function Xbit_usdt() {
           <Stake_History
           XBIT_Pool_Staking_Address={XBIT_USDT_pool_Staking_Address}
           XBIT_Pool_Staking_ABI={XBIT_USDT_pool_Staking_Abi}
+          decimals={1000000}
           />
+            <Footer />
+
 
         </CustomTabPanel>
       </Box>

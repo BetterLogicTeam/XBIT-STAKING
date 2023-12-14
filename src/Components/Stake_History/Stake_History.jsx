@@ -15,11 +15,12 @@ import { Button } from "react-bootstrap";
 export default function Stake_History({
   XBIT_Pool_Staking_ABI,
   XBIT_Pool_Staking_Address,
+  decimals
 }) {
   const { address } = useAccount();
   const [UserInformationStak, setUserInformationStak] = useState();
   const [spinner, setspinner] = useState(false);
-  const webSupply = new Web3("wss://arbitrum-goerli.publicnode.com");
+  const webSupply = new Web3("wss://arbitrum-one.publicnode.com");
   const checkBalance = async () => {
     let stakingContractOf;
 
@@ -42,9 +43,9 @@ export default function Stake_History({
         let date = moment(Number(array3[i]) * 1000).format("DD-MM-YYYY");
         let obj = {
           address: address,
-          amount: array1[i] / 1000000000,
+          amount: array1[i] / decimals,
 
-          unLoackTime: Number(currentTimestamp) + Number(60) * array2[i],
+          unLoackTime: Number(currentTimestamp) + Number(86400) * array2[i],
           LockTime: date,
         };
         myArray = [...myArray, obj];
@@ -121,11 +122,11 @@ export default function Stake_History({
                 type="button"
                 onClick={() => checkBalance()}
               >
-                <span className="me-2 text-white">Refresh</span>
+                <span className="me-2 fs-6 ">Refresh</span>
                 <span
                   role="img"
                   aria-label="sync"
-                  className="anticon anticon-sync SyncOutlined text-white"
+                  className="anticon anticon-sync SyncOutlined fs-6 "
                 >
                   <svg
                     viewBox="64 64 896 896"
@@ -186,7 +187,7 @@ export default function Stake_History({
                   </tr>
                 </thead>
                 <tbody className="MuiTableBody-root css-1xnox0e">
-                  {UserInformationStak?.length == 0  ? (
+                  { !UserInformationStak  ? (
                     <>
                       <td
                         className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-q34dxg"
@@ -245,9 +246,10 @@ export default function Stake_History({
                                     scope="col"
                                   >
                                     <button
-                                      className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-4hkj1c"
+                                      className="MuiButtonBase-root  MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-4hkj1c"
                                       tabIndex={0}
                                       type="button"
+                                      style={{backgroundColor:"#fff",color:"#000"}}
                                       onClick={() =>
                                         current_Time >= items.unLoackTime
                                           ? unstake(index)
